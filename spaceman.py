@@ -32,9 +32,7 @@ def is_word_guessed(secret_word, letters_guessed):
 
     for letter in secret_word:
         if letter not in letters_guessed:
-            print('False')
             return False
-        print('True')
         return True
 
 
@@ -50,9 +48,13 @@ def get_guessed_word(secret_word, letters_guessed):
         string: letters and underscores.  For letters in the word that the user has guessed correctly, the string should contain the letter at the correct position.  For letters in the word that the user has not yet guessed, shown an _ (underscore) instead.
     '''
 
-    # TODO: Loop through the letters in secret word and build a string that shows the letters that have been guessed correctly so far that are saved in letters_guessed and underscores for the letters that have not been guessed yet
-
-    pass
+    return_word = []
+    for letter in secret_word:
+        if letter in letters_guessed:
+            return_word.append(letter)
+        else:
+            return_word.append('_')
+    return ''.join(return_word)
 
 
 def is_guess_in_word(guess, secret_word):
@@ -94,5 +96,15 @@ def spaceman(secret_word):
 
 # These function calls that will start the game
 secret_word = load_word()
-is_word_guessed(secret_word, ['h', 'i'])
+get_guessed_word('hillo', ['h', 'i', 'l'])
+# is_word_guessed(secret_word, ['h', 'i'])
 spaceman(load_word())
+
+
+def test():
+    secret_word = load_word()  # Get a random secret word
+    get_guessed_word('hello', ['h', 'e', 'l'])  # Hell_
+    is_word_guessed('hi', ['h', 'i'])  # True
+    is_word_guessed('hi', ['h'])  # False
+
+# test()
