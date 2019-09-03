@@ -93,6 +93,9 @@ def spaceman(secret_word):
 
     guessed_word = ""
     correct_guesses = []
+    unused_letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+                      'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                      'u', 'v', 'w', 'x', 'y', 'z']
     # while incorrect_guesses != 0:
     while True:
         # Print to make it easier to read where you are in the program
@@ -111,6 +114,12 @@ def spaceman(secret_word):
 
         # Get user input
         letter = input("Enter a letter: ")
+
+        # Remove the guessed letter from unused_letters
+        unused_letters.remove(letter)
+        remaining_letters = ''.join(unused_letters)
+
+        # Check if the guess was correct or not
         if is_guess_in_word(letter, secret_word):
             # Add the letter to the correct guesses
             correct_guesses.append(letter)
@@ -120,6 +129,8 @@ def spaceman(secret_word):
             # Print information and where they are at in the game,
             print("Your guess appears in the word!")
             print("Guessed word so far:  {}".format(guessed_word))
+            print("These letters you haven't guessed yet:  {}".format(
+                remaining_letters))
         else:
             # Get the letters that they have so far.
             guessed_word = get_guessed_word(secret_word, correct_guesses)
@@ -131,8 +142,8 @@ def spaceman(secret_word):
             print("Sorry, your guess was not in the word, try again")
             print("You have {} incorrect guesses left".format(incorrect_guesses))
             print("Guessed word so far: {}".format(guessed_word))
-
-    # TODO: check if the game has been won or lost
+            print("These letters you haven't guessed yet:  {}".format(
+                remaining_letters))
 
 
 # These function calls that will start the game
