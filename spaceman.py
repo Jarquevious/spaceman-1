@@ -83,20 +83,22 @@ def spaceman(secret_word):
 
     '''
 
+    # Set the amount of incorrect guesses available to 7
     incorrect_guesses = 7
 
+    # Welcome the user to spaceman and give them some info on the game they are going to be playing.
     print('Welcome to spaceman!')
     print('The secret word contains: {} letters'.format(len(secret_word)))
     print('You have {} incorrect guesses left, please enter one letter per round'.format(
         incorrect_guesses))
-    # print('------------------------------')
 
     guessed_word = ""
     correct_guesses = []
     unused_letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
                       'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
                       'u', 'v', 'w', 'x', 'y', 'z']
-    # while incorrect_guesses != 0:
+
+    # Main game functionality
     while True:
         # Print to make it easier to read where you are in the program
         print('------------------------------ \n')
@@ -147,16 +149,5 @@ def spaceman(secret_word):
 
 
 # These function calls that will start the game
-# secret_word = 'banana'
-# spaceman(secret_word)
 secret_word = load_word()
 spaceman(load_word())
-
-
-def test():
-    # secret_word = load_word()  # Get a random secret word
-    get_guessed_word('hello', ['h', 'e', 'l'])  # Hell_
-    is_word_guessed('hi', ['h', 'i'])  # True
-    is_word_guessed('hi', ['h'])  # False
-
-# test()
