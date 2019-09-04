@@ -92,16 +92,17 @@ def spaceman(secret_word):
 
     '''
 
-    # Set the amount of incorrect guesses available to 7
-    incorrect_guesses = 7
+    # Set the amount of incorrect guesses available to the length of the secret word
+    incorrect_guesses = len(secret_word)
 
-    # Welcome the user to spaceman and give them some info on the game they are going to be playing.
+    # Welcome the user to spaceman and give them some info on the game they are going to be playing.  Also clear console :)
     os.system('clear')
     print('Welcome to spaceman!')
     print('The secret word contains: {} letters'.format(len(secret_word)))
     print('You have {} incorrect guesses left, please enter one letter per round'.format(
         incorrect_guesses))
 
+    # Placeholders for use later in the program
     guessed_word = ""
     correct_guesses = []
     unused_letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
@@ -127,10 +128,12 @@ def spaceman(secret_word):
         # Get user input
         letter = input("Enter a letter: ")
 
+        # If the length of the the input is not 1 then it asks the user to try a new input
         if len(letter) != 1:
             print("Your input needs to be only one character, please try again")
             continue
 
+        # If the letter is not in unused_letters (aka they have typed it before) then it asks them for a new input
         if letter not in unused_letters:
             print("You have already tried that input, please try again")
             continue
@@ -151,7 +154,7 @@ def spaceman(secret_word):
             print("These letters you haven't guessed yet:  {}".format(
                 remaining_letters))
         else:
-            # Get the letters that they have so far.
+            # Get the letters that they have so far
             guessed_word = get_guessed_word(secret_word, correct_guesses)
             # Remove one off of the incorrect guess counter
             incorrect_guesses -= 1
