@@ -1,4 +1,5 @@
 import random
+import os
 
 
 def load_word():
@@ -74,6 +75,14 @@ def is_guess_in_word(guess, secret_word):
     return False
 
 
+def play_again():
+    yes_or_no = input("Would you like to play again? y/n:  ")
+    if "y" in yes_or_no:
+        return True
+    else:
+        return False
+
+
 def spaceman(secret_word):
     '''
     A function that controls the game of spaceman. Will start spaceman in the command line.
@@ -87,6 +96,7 @@ def spaceman(secret_word):
     incorrect_guesses = 7
 
     # Welcome the user to spaceman and give them some info on the game they are going to be playing.
+    os.system('clear')
     print('Welcome to spaceman!')
     print('The secret word contains: {} letters'.format(len(secret_word)))
     print('You have {} incorrect guesses left, please enter one letter per round'.format(
@@ -155,5 +165,8 @@ def spaceman(secret_word):
 
 
 # These function calls that will start the game
-secret_word = load_word()
-spaceman(load_word())
+running = True
+while running:
+    secret_word = load_word()
+    spaceman(load_word())
+    running = play_again()
