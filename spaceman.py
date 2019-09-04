@@ -117,39 +117,37 @@ def spaceman(secret_word):
         # Get user input
         letter = input("Enter a letter: ")
 
-        if letter in unused_letters:
-            # Remove the guessed letter from unused_letters
-            unused_letters.remove(letter)
-            remaining_letters = ','.join(unused_letters)
-
-            # Check if the guess was correct or not
-            if is_guess_in_word(letter, secret_word):
-                # Add the letter to the correct guesses
-                correct_guesses.append(letter)
-                # Get the new guessed word with the updated correct letters
-                guessed_word = get_guessed_word(secret_word, correct_guesses)
-
-                # Print information and where they are at in the game,
-                print("Your guess appears in the word!")
-                print("Guessed word so far:  {}".format(guessed_word))
-                print("These letters you haven't guessed yet:  {}".format(
-                    remaining_letters))
-            else:
-                # Get the letters that they have so far.
-                guessed_word = get_guessed_word(secret_word, correct_guesses)
-
-                # Remove one off of the incorrect guess counter
-                incorrect_guesses -= 1
-
-                # Print information and where they are at in the game
-                print("Sorry, your guess was not in the word, try again")
-                print("You have {} incorrect guesses left".format(
-                    incorrect_guesses))
-                print("Guessed word so far: {}".format(guessed_word))
-                print("These letters you haven't guessed yet:  {}".format(
-                    remaining_letters))
-        else:
+        if letter not in unused_letters:
             print("You have already tried that input, please try again")
+            continue
+
+        # Remove the guessed letter from unused_letters
+        unused_letters.remove(letter)
+        remaining_letters = ','.join(unused_letters)
+
+        # Check if the guess was correct or not
+        if is_guess_in_word(letter, secret_word):
+            # Add the letter to the correct guesses
+            correct_guesses.append(letter)
+            # Get the new guessed word with the updated correct letters
+            guessed_word = get_guessed_word(secret_word, correct_guesses)
+            # Print information and where they are at in the game,
+            print("Your guess appears in the word!")
+            print("Guessed word so far:  {}".format(guessed_word))
+            print("These letters you haven't guessed yet:  {}".format(
+                remaining_letters))
+        else:
+            # Get the letters that they have so far.
+            guessed_word = get_guessed_word(secret_word, correct_guesses)
+            # Remove one off of the incorrect guess counter
+            incorrect_guesses -= 1
+            # Print information and where they are at in the game
+            print("Sorry, your guess was not in the word, try again")
+            print("You have {} incorrect guesses left".format(
+                incorrect_guesses))
+            print("Guessed word so far: {}".format(guessed_word))
+            print("These letters you haven't guessed yet:  {}".format(
+                remaining_letters))
 
 
 # These function calls that will start the game
