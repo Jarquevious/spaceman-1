@@ -117,6 +117,10 @@ def spaceman(secret_word):
         # Get user input
         letter = input("Enter a letter: ")
 
+        if len(letter) != 1:
+            print("Your input needs to be only one character, please try again")
+            continue
+
         if letter not in unused_letters:
             print("You have already tried that input, please try again")
             continue
