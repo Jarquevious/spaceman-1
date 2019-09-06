@@ -1,4 +1,5 @@
 import random
+import pyfiglet
 import os
 
 
@@ -7,7 +8,7 @@ def load_word():
     A function that reads a text file of words and randomly selects one to use as the secret word
         from the list.
 
-    Returns: 
+    Returns:
            string: The secret word to be used in the spaceman guessing game
     '''
     with open('words.txt', 'r') as f:
@@ -15,6 +16,37 @@ def load_word():
 
     secret_word = random.choice(words_list)
     return secret_word
+
+
+# Worked together with Christopher Francisco to make this
+#
+# Please give me / him feedback on this if there is a more efficent way to do it.  He stores the list in a local variable
+# and then just filters through that list instead of the entire file every time, which I assume is more efficent than the
+# the way that I do it here.  But we would love to learn more if there is a cleaner way to do this.  Thank you!!
+def get_new_word(current_word):
+    # Open the file again as we are going to get a new word from the list
+    with open('words.txt', 'r') as f:
+        words_list = f.read().split(' ')
+
+    # Oneline filter function that only gets words with a length of the current_word
+    correct_len_words = filter(lambda x: len(
+        x) == len(current_word), words_list)
+
+    # Initalize a list for all the 'related' words in the list
+    related_words = []
+    # Loop through all the words in the length filtered list
+    for word in list(correct_len_words):
+        is_related = True  # Keep a variable to track related status of a letter
+        # Get index and value for every letter in the current word
+        for i, character in enumerate(current_word):
+            if character.isalpha():  # Check if the character is alpha so that it ignores '_' characters
+                # Set related to false if the letter in the word is not the same as the letter in current word
+                if word[i] != character:
+                    is_related = False
+        if is_related:  # A check that will only add the word if related remains as true
+            related_words.append(word)
+
+    return related_words
 
 
 def is_word_guessed(secret_word, letters_guessed):
@@ -77,7 +109,7 @@ def is_guess_in_word(guess, secret_word):
 
 def play_again():
     yes_or_no = input("Would you like to play again? y/n:  ")
-    if "y" in yes_or_no:
+    if "y".lower() in yes_or_no:
         return True
     else:
         return False
@@ -97,13 +129,12 @@ def spaceman(secret_word):
 
     # Welcome the user to spaceman and give them some info on the game they are going to be playing.  Also clear console :)
     os.system('clear')
-    print('Welcome to spaceman!')
+    print(pyfiglet.figlet_format('Welcome to spaceman!', font='small'))
     print('The secret word contains: {} letters'.format(len(secret_word)))
     print('You have {} incorrect guesses left, please enter one letter per round'.format(
         incorrect_guesses))
 
     # Placeholders for use later in the program
-    guessed_word = ""
     correct_guesses = []
     unused_letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
                       'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
@@ -146,18 +177,25 @@ def spaceman(secret_word):
         if is_guess_in_word(letter, secret_word):
             # Add the letter to the correct guesses
             correct_guesses.append(letter)
-            # Get the new guessed word with the updated correct letters
-            guessed_word = get_guessed_word(secret_word, correct_guesses)
-            # Print information and where they are at in the game,
+
+            # Sets the secret word to a random word that contains the same 'characters' in the same spot.  This is for sinister spaceman
+            secret_word = random.choice(get_new_word(
+                get_guessed_word(secret_word, correct_guesses)))
+
+            # Gets the new word with spots blanked out for things that they have not guessed so that it can be returned
+            new_word = get_guessed_word(secret_word, correct_guesses)
+            # Print information and where they are at in the game
             print("Your guess appears in the word!")
-            print("Guessed word so far:  {}".format(guessed_word))
+            print("Guessed word so far: {}".format(new_word))
             print("These letters you haven't guessed yet:  {}".format(
                 remaining_letters))
         else:
             # Get the letters that they have so far
             guessed_word = get_guessed_word(secret_word, correct_guesses)
+
             # Remove one off of the incorrect guess counter
             incorrect_guesses -= 1
+
             # Print information and where they are at in the game
             print("Sorry, your guess was not in the word, try again")
             print("You have {} incorrect guesses left".format(
@@ -170,6 +208,5 @@ def spaceman(secret_word):
 # These function calls that will start the game
 running = True
 while running:
-    secret_word = load_word()
     spaceman(load_word())
     running = play_again()
