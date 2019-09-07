@@ -110,9 +110,14 @@ def is_guess_in_word(guess, secret_word):
 def play_again():
     yes_or_no = input("Would you like to play again? y/n:  ")
     if "y".lower() in yes_or_no:
+        os.system('clear')
         return True
     else:
+        os.system('clear')
         return False
+
+
+# Functions to clean up spaceman func
 
 
 def spaceman(secret_word):
@@ -164,12 +169,17 @@ def spaceman(secret_word):
             print("Your input needs to be only one character, please try again")
             continue
 
+        # Check to make sure that their input is only a letter
+        if not letter.isalpha():
+            print("Your input needs to be a letter of the alphabet, please try again")
+            continue
+
         # If the letter is not in unused_letters (aka they have typed it before) then it asks them for a new input
         if letter not in unused_letters:
             print("You have already tried that input, please try again")
             continue
 
-        # Remove the guessed letter from unused_letters
+        # Remove the guessed letter from unused_letters and then make a remaining letters list for the user to see before any guess.
         unused_letters.remove(letter)
         remaining_letters = ','.join(unused_letters)
 
