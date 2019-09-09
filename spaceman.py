@@ -57,7 +57,7 @@ def is_word_guessed(secret_word, letters_guessed):
         secret_word (string): the random word the user is trying to guess.
         letters_guessed (list of strings): list of letters that have been guessed so far.
 
-    Returns: 
+    Returns:
         bool: True only if all the letters of secret_word are in letters_guessed, False otherwise
     '''
     for letter in secret_word:
@@ -70,21 +70,21 @@ def get_guessed_word(secret_word, letters_guessed):
     '''
     A function that is used to get a string showing the letters guessed so far in the secret word and underscores for letters that have not been guessed yet.
 
-    Args: 
+    Args:
         secret_word (string): the random word the user is trying to guess.
         letters_guessed (list of strings): list of letters that have been guessed so far.
 
-    Returns: 
+    Returns:
         string: letters and underscores.  For letters in the word that the user has guessed correctly, the string should contain the letter at the correct position.  For letters in the word that the user has not yet guessed, shown an _ (underscore) instead.
     '''
 
-    return_word = []
+    ret = []
     for letter in secret_word:
         if letter in letters_guessed:
-            return_word.append(letter)
+            ret.append(letter)
         else:
-            return_word.append('_')
-    return ''.join(return_word)
+            ret.append('_')
+    return ''.join(ret)
 
 
 def is_guess_in_word(guess, secret_word):
@@ -99,25 +99,30 @@ def is_guess_in_word(guess, secret_word):
         bool: True if the guess is in the secret_word, False otherwise
 
     '''
+    # for letter in secret_word:
+    #     if letter == guess:
+    #         return True
 
-    for letter in secret_word:
-        if letter == guess:
-            return True
-
-    return False
+    # return False
+    return [x for x in guess if x in secret_word]
 
 
 def play_again():
     yes_or_no = input("Would you like to play again? y/n:  ")
-    if "y".lower() in yes_or_no:
+    if "y".lower() in yes_or_no.lower():
         os.system('clear')
         return True
     else:
         os.system('clear')
         return False
 
+# Helper funcs
 
-# Functions to clean up spaceman func
+
+def is_palindrome(s):
+    if s == s[::-1]:
+        return True
+    return False
 
 
 def spaceman(secret_word):
@@ -136,6 +141,10 @@ def spaceman(secret_word):
     os.system('clear')
     print(pyfiglet.figlet_format('Welcome to spaceman!', font='small'))
     print('The secret word contains: {} letters'.format(len(secret_word)))
+    if is_palindrome(secret_word):
+        print("Hint: The word is a palindrome")
+    else:
+        print("Hint: The word is not a panindrome")
     print('You have {} incorrect guesses left, please enter one letter per round'.format(
         incorrect_guesses))
 
